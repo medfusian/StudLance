@@ -28,6 +28,8 @@ plt.show()
 gray = np.float32(img)
 harris = cv2.cornerHarris(gray, 2, 3, 0.04)
 harris = cv2.dilate(harris, None)
+corners_harris = harris > 0.01 * harris.max()
+num_corners_harris = len(corners_harris.nonzero()[0])
 
 
 # преобразование формы массива
@@ -42,6 +44,7 @@ plt.show()
 # детектор углов Shi-Tomasi
 corners = cv2.goodFeaturesToTrack(gray, 100, 0.01, 10)
 corners = np.intp(corners)
+num_corners_shi_tomasi = corners.shape[0]
 
 # нормализуем изображение до диапазона [0, 1]
 img_norm = cv2.normalize(img, None, 0, 1, cv2.NORM_MINMAX, cv2.CV_32F)
@@ -54,6 +57,10 @@ for corner in corners:
 plt.imshow(img)
 plt.title('Shi-Tomasi corners')
 plt.show()
+
+# вывод количества углов
+print("Количество углов (Харрис):", num_corners_harris)
+print("Количество углов (Shi-Tomasi):", num_corners_shi_tomasi)
 
 # функция label
 ret, labels = cv2.connectedComponents(img)
@@ -96,3 +103,5 @@ img = cv2.drawKeypoints(img, kp, None, color=(255, 0, 0))
 cv2.imshow("Image", img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
+input('press enter to ext')

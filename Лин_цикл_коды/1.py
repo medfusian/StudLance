@@ -17,5 +17,5 @@ for n in range(3, 10):
     print(cyclic_codes(n))
     print('\n')
 
-print('Столбовская Полина Сергеевна')
+print('Байбекова Мария Владиславовна')
 input('Нажмите Enter для выхода\n')
