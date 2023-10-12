@@ -1,0 +1,49 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Windows.Forms;
+
+namespace GardenApp
+{
+    public partial class MainForm : Form
+    {
+        private SqlConnection connection;
+        private SqlDataAdapter ownersAdapter;
+        private SqlDataAdapter plotsAdapter;
+        private DataSet dataSet;
+
+        public MainForm()
+        {
+            InitializeComponent();
+
+            // создаем соединение с базой данных
+            string connectionString = "Data Source=localhost;Initial Catalog=GardenDB;Integrated Security=True";
+            connection = new SqlConnection(connectionString);
+
+            // создаем адаптеры данных
+            ownersAdapter = new SqlDataAdapter("SELECT * FROM Владельцы", connection);
+            plotsAdapter = new SqlDataAdapter("SELECT * FROM Участки", connection);
+
+            // создаем объект DataSet и заполняем его данными из таблиц
+            dataSet = new DataSet();
+            ownersAdapter.Fill(dataSet, "Владельцы");
+            plotsAdapter.Fill(dataSet, "Участки");
+
+            // отображаем данные из таблицы Владельцы через DataGrid
+            dataGridView1.DataSource = dataSet.Tables["Владельцы"];
+
+            // отображаем данные из таблицы Участки через SqlCommand и TextBox
+            SqlCommand command = new SqlCommand("SELECT * FROM Участки", connection);
+            connection.Open();
+            SqlDataReader reader = command.ExecuteReader();
+            string result = "";
+            while (reader.Read())
+            {
+                result += $"Участок {reader["номер_участка"]} площадью {reader["площадь"]} и стоимостью постройки {reader["стоимость_постройки"]}\n";
+            }
+            reader.Close();
+            connection.Close();
+            textBox1.Text = result;
+        }
+    }
+}

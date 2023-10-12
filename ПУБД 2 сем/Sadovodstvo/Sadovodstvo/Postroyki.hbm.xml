@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+ namespace="Sadovodstvo" assembly="Sadovodstvo">
+	<class name="Postroyki" table="Postroyki">
+		<id name="id" column="id">
+			<generator class="identity"/>
+		</id>
+		<property name="id_участка" column="id_участка"  />
+		<property name="тип_постройки" column="тип_постройки"  />
+		<property name="стоимость_постройки" column="стоимость_постройки"  />
+	</class>
+</hibernate-mapping>
